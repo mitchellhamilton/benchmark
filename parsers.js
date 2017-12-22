@@ -30,89 +30,96 @@ const gonzales   = require('gonzales');
 const parserlib  = require('parserlib');
 const gonzalesPe = require('gonzales-pe');
 const csstree    = require('css-tree');
-const Stylis     = require('stylis');
+const Stylis     = require('stylis/stylis.min.js');
+const StylisClosure = require('emotion-utils').Stylis;
 const stylis     = new Stylis();
+const stylisClosure = new StylisClosure();
 
 module.exports = {
     name: 'Bootstrap',
     maxTime: 15,
     tests: [
-        {
-            name: 'Rework',
-            fn: () => {
-                rework(css).toString();
-            }
-        },
-        {
-            name: 'PostCSS',
-            defer: true,
-            fn: done => {
-                postcss.parse(css, { from: example }).toResult();
-                done.resolve();
-            }
-        },
-        {
-            name: 'PostCSS Full',
-            defer: true,
-            fn: done => {
-                const root = postcss.parse(css, { from: example });
-                root.walk(node => {
-                    if ( node.type === 'rule' ) {
-                        node.selector = postcssSP.process(node.selector);
-                    } else if ( node.type === 'decl' ) {
-                        node.value = postcssVP(node.value);
-                    }
-                });
-                root.toResult();
-                done.resolve();
-            }
-        },
-        {
-            name: 'CSSOM',
-            fn: () => {
-                CSSOM.parse(css).toString();
-            }
-        },
-        {
-            name: 'Mensch',
-            fn: () => {
-                mensch.stringify( mensch.parse(css) );
-            }
-        },
-        {
-            name: 'Gonzales',
-            fn: () => {
-                gonzales.csspToSrc( gonzales.srcToCSSP(css) );
-            }
-        },
-        {
-            name: 'Gonzales PE',
-            fn: () => {
-                gonzalesPe.parse(css).toString();
-            }
-        },
-        {
-            name: 'CSSTree',
-            fn: () => {
-                csstree.translate(csstree.parse(css));
-            }
-        },
-        {
-            name: 'ParserLib',
-            fn: () => {
-                (new parserlib.css.Parser()).parse(css);
-            }
-        },
-        {
-            name: 'Stylecow',
-            fn: () => {
-                stylecow.parse(css).toString();
-            }
-        },
+        // {
+        //     name: 'Rework',
+        //     fn: () => {
+        //         rework(css).toString();
+        //     }
+        // },
+        // {
+        //     name: 'PostCSS',
+        //     defer: true,
+        //     fn: done => {
+        //         postcss.parse(css, { from: example }).toResult();
+        //         done.resolve();
+        //     }
+        // },
+        // {
+        //     name: 'PostCSS Full',
+        //     defer: true,
+        //     fn: done => {
+        //         const root = postcss.parse(css, { from: example });
+        //         root.walk(node => {
+        //             if ( node.type === 'rule' ) {
+        //                 node.selector = postcssSP.process(node.selector);
+        //             } else if ( node.type === 'decl' ) {
+        //                 node.value = postcssVP(node.value);
+        //             }
+        //         });
+        //         root.toResult();
+        //         done.resolve();
+        //     }
+        // },
+        // {
+        //     name: 'CSSOM',
+        //     fn: () => {
+        //         CSSOM.parse(css).toString();
+        //     }
+        // },
+        // {
+        //     name: 'Mensch',
+        //     fn: () => {
+        //         mensch.stringify( mensch.parse(css) );
+        //     }
+        // },
+        // {
+        //     name: 'Gonzales',
+        //     fn: () => {
+        //         gonzales.csspToSrc( gonzales.srcToCSSP(css) );
+        //     }
+        // },
+        // {
+        //     name: 'Gonzales PE',
+        //     fn: () => {
+        //         gonzalesPe.parse(css).toString();
+        //     }
+        // },
+        // {
+        //     name: 'CSSTree',
+        //     fn: () => {
+        //         csstree.translate(csstree.parse(css));
+        //     }
+        // },
+        // {
+        //     name: 'ParserLib',
+        //     fn: () => {
+        //         (new parserlib.css.Parser()).parse(css);
+        //     }
+        // },
+        // {
+        //     name: 'Stylecow',
+        //     fn: () => {
+        //         stylecow.parse(css).toString();
+        //     }
+        // },
         {
             name: 'Stylis',
             fn: () => {
                 stylis('', css);
+            }
+        }, {
+            name: 'Stylis closure compiler',
+            fn: () => {
+                stylisClosure('', css);
             }
         }
     ]

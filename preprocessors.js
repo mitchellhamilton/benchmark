@@ -106,8 +106,10 @@ for ( i = 0; i < 100; i++ ) {
 }
 
 // Stylis
-const Stylis = require('stylis');
-const stylisObj = new Stylis();
+const Stylis     = require('stylis/stylis.min.js');
+const StylisClosure = require('emotion-utils').Stylis;
+const stylisObj     = new Stylis();
+const stylisClosure = new StylisClosure();
 let styi = css;
 styi += ':root { --size: 100px; }';
 styi += '@mixin icon { width: 16px; height: 16px; }';
@@ -124,79 +126,93 @@ stylisObj.use([
     require('stylis-custom-properties')
 ]);
 
+stylisClosure.use([
+    require('stylis-mixin'),
+    require('stylis-calc'),
+    require('stylis-custom-properties')
+]);
+
 module.exports = {
     name: 'Bootstrap',
     maxTime: 15,
     tests: [
-        {
-            name: 'libsass',
-            fn: () => {
-                libsass.renderSync({ data: scss });
-            }
-        },
-        {
-            name: 'Rework',
-            defer: true,
-            fn: done => {
-                myth(rcss, { features: { prefixes: false } });
-                done.resolve();
-            }
-        },
-        {
-            name: 'PostCSS',
-            defer: true,
-            fn: done => {
-                processor.process(pcss, { map: false }).then(() => {
-                    done.resolve();
-                });
-            }
-        },
-        {
-            name: 'Stylecow',
-            defer: true,
-            fn: done => {
-                const code = stylecow.parse(cowcss);
-                stylecower.run(code);
-                stylecowOut.run(code);
-                done.resolve();
-            }
-        },
-        {
-            name: 'Stylus',
-            defer: true,
-            fn: done => {
-                stylus.render(styl, { filename: example }, err => {
-                    if ( err ) throw err;
-                    done.resolve();
-                });
-            }
-        },
-        {
-            name: 'Less',
-            defer: true,
-            fn: done => {
-                less.render(lcss, err => {
-                    if ( err ) throw err;
-                    done.resolve();
-                });
-            }
-        },
-        {
-            name: 'Ruby Sass',
-            defer: true,
-            fn: done => {
-                const command = 'sass -C --sourcemap=none ' + scssFile;
-                exec('bundle exec ' + command, (err, stdout, stderr) => {
-                    if ( err ) throw stderr;
-                    done.resolve();
-                });
-            }
-        },
+        // {
+        //     name: 'libsass',
+        //     fn: () => {
+        //         libsass.renderSync({ data: scss });
+        //     }
+        // },
+        // {
+        //     name: 'Rework',
+        //     defer: true,
+        //     fn: done => {
+        //         myth(rcss, { features: { prefixes: false } });
+        //         done.resolve();
+        //     }
+        // },
+        // {
+        //     name: 'PostCSS',
+        //     defer: true,
+        //     fn: done => {
+        //         processor.process(pcss, { map: false }).then(() => {
+        //             done.resolve();
+        //         });
+        //     }
+        // },
+        // {
+        //     name: 'Stylecow',
+        //     defer: true,
+        //     fn: done => {
+        //         const code = stylecow.parse(cowcss);
+        //         stylecower.run(code);
+        //         stylecowOut.run(code);
+        //         done.resolve();
+        //     }
+        // },
+        // {
+        //     name: 'Stylus',
+        //     defer: true,
+        //     fn: done => {
+        //         stylus.render(styl, { filename: example }, err => {
+        //             if ( err ) throw err;
+        //             done.resolve();
+        //         });
+        //     }
+        // },
+        // {
+        //     name: 'Less',
+        //     defer: true,
+        //     fn: done => {
+        //         less.render(lcss, err => {
+        //             if ( err ) throw err;
+        //             done.resolve();
+        //         });
+        //     }
+        // },
+        // {
+        //     name: 'Ruby Sass',
+        //     defer: true,
+        //     fn: done => {
+        //         const command = 'sass -C --sourcemap=none ' + scssFile;
+        //         exec('bundle exec ' + command, (err, stdout, stderr) => {
+        //             if ( err ) throw stderr;
+        //             done.resolve();
+        //         });
+        //     }
+        // },
         {
             name: 'Stylis',
             defer: true,
             fn: done => {
                 stylisObj('', styi);
+                done.resolve();
+            }
+        },
+        {
+            name: 'Stylis Closure',
+            defer:true,
+            fn: (done) => {
+                stylisClosure('', styi);
                 done.resolve();
             }
         }

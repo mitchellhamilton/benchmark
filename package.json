@@ -4,6 +4,7 @@
     "autoprefixer": "^7.1.1",
     "css-tree": "^1.0.0-alpha14",
     "cssom": "^0.3.2",
+    "emotion-utils": "^8.0.12",
     "eslint-config-postcss": "^2.0.2",
     "fs-extra": "^3.0.1",
     "gonzales": "^1.0.7",

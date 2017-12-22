@@ -49,60 +49,70 @@ const scssFile = path.join(__dirname, 'cache/bootstrap.prefixers.scss');
 fs.writeFileSync(scssFile, scss);
 
 // Stylis
-const Stylis = require('stylis');
-const stylis = new Stylis();
+const Stylis     = require('stylis/stylis.min.js');
+const StylisClosure = require('emotion-utils').Stylis;
+const stylis     = new Stylis();
+const stylisClosure = new StylisClosure();
 
 module.exports = {
     name: 'Bootstrap',
     maxTime: 15,
     tests: [
-        {
-            name: 'Autoprefixer',
-            defer: true,
-            fn: done => {
-                processor.process(css, { map: false }).then(() => {
-                    done.resolve();
-                });
-            }
-        },
-        {
-            name: 'Stylecow',
-            defer: true,
-            fn: done => {
-                const code = stylecow.parse(css);
-                stylecower.run(code);
-                stylecowOut.run(code);
-                done.resolve();
-            }
-        },
-        {
-            name: 'nib',
-            defer: true,
-            fn: done => {
-                stylus(styl)
-                    .include(require('nib').path)
-                    .render(err => {
-                        if ( err ) throw err;
-                        done.resolve();
-                    });
-            }
-        },
-        {
-            name: 'Compass',
-            defer: true,
-            fn: done => {
-                const cmd = 'sass -C --compass --sourcemap=none ' + scssFile;
-                exec('bundle exec ' + cmd, (err, stdout, stderr) => {
-                    if ( err ) throw stderr;
-                    done.resolve();
-                });
-            }
-        },
+        // {
+        //     name: 'Autoprefixer',
+        //     defer: true,
+        //     fn: done => {
+        //         processor.process(css, { map: false }).then(() => {
+        //             done.resolve();
+        //         });
+        //     }
+        // },
+        // {
+        //     name: 'Stylecow',
+        //     defer: true,
+        //     fn: done => {
+        //         const code = stylecow.parse(css);
+        //         stylecower.run(code);
+        //         stylecowOut.run(code);
+        //         done.resolve();
+        //     }
+        // },
+        // {
+        //     name: 'nib',
+        //     defer: true,
+        //     fn: done => {
+        //         stylus(styl)
+        //             .include(require('nib').path)
+        //             .render(err => {
+        //                 if ( err ) throw err;
+        //                 done.resolve();
+        //             });
+        //     }
+        // },
+        // {
+        //     name: 'Compass',
+        //     defer: true,
+        //     fn: done => {
+        //         const cmd = 'sass -C --compass --sourcemap=none ' + scssFile;
+        //         exec('bundle exec ' + cmd, (err, stdout, stderr) => {
+        //             if ( err ) throw stderr;
+        //             done.resolve();
+        //         });
+        //     }
+        // },
         {
             name: 'Stylis',
             defer: true,
             fn: done => {
                 stylis('', css);
+                done.resolve();
+            }
+        },
+        {
+            name:'Stylis Closure',
+            defer:true,
+            fn: (done) => {
+                stylisClosure('', css);
                 done.resolve();
             }
         }
